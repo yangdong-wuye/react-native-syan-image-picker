@@ -28,7 +28,7 @@ const defaultOptions = {
     compressFocusAlpha:false,   //压缩png保留通明度
     minimumCompressSize: 100,  // 小于100kb的图片不压缩
     quality: 90,               // 压缩质量
-    // enableBase64: false,       // 是否返回base64编码，默认不返回
+    enableBase64: false,       // 是否返回base64编码，默认不返回
     allowPickingOriginalPhoto: false,
     allowPickingMultipleVideo: false, // 可以多选视频/gif/图片，和照片共享最大可选张数maxImagesCount的限制
     videoMaximumDuration: 10 * 60, // 视频最大拍摄时间，默认是10分钟，单位是秒
