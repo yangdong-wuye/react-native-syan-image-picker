@@ -465,17 +465,11 @@ RCT_EXPORT_METHOD(openVideoPicker:(NSDictionary *)options callback:(RCTResponseS
 
     photo[@"uri"]       = filePath;
     photo[@"width"]     = @(image.size.width);
+    photo[@"path"]      = filePath;
     photo[@"height"]    = @(image.size.height);
     NSInteger size = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil].fileSize;
     photo[@"size"] = @(size);
     photo[@"mediaType"] = @(phAsset.mediaType);
-    if ([self.cameraOptions sy_boolForKey:@"enableBase64"]) {
-        if(isPNG){
-            photo[@"base64"] = [NSString stringWithFormat:@"data:image/png;base64,%@", [writeData base64EncodedStringWithOptions:0]];
-        }else{
-            photo[@"base64"] = [NSString stringWithFormat:@"data:image/jpeg;base64,%@", [writeData base64EncodedStringWithOptions:0]];
-        }
-    }
 
     return photo;
 }
@@ -510,18 +504,12 @@ RCT_EXPORT_METHOD(openVideoPicker:(NSDictionary *)options callback:(RCTResponseS
     [writeData writeToFile:filePath atomically:YES];
 
     photo[@"uri"]       = filePath;
+    photo[@"path"]       = filePath;
     photo[@"width"]     = @(image.size.width);
     photo[@"height"]    = @(image.size.height);
     NSInteger size      = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil].fileSize;
     photo[@"size"]      = @(size);
     photo[@"mediaType"] = @(phAsset.mediaType);
-    if ([self.cameraOptions sy_boolForKey:@"enableBase64"] && !isGIF) {
-        if(isPNG){
-            photo[@"base64"] = [NSString stringWithFormat:@"data:image/png;base64,%@", [writeData base64EncodedStringWithOptions:0]];
-        }else{
-            photo[@"base64"] = [NSString stringWithFormat:@"data:image/jpeg;base64,%@", [writeData base64EncodedStringWithOptions:0]];
-        }
-    }
 
     return photo;
 }

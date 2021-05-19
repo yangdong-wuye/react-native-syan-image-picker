@@ -30,13 +30,13 @@ export interface ImagePickerOption {
 }
 
 interface SelectedPhoto {
-  width: number; //图片宽度
-  height: number; //图片高度
-  uri: string; //图片路径
-  original_uri: string; //图片原始路径，仅 Android
-  type: string; //文件类型，仅 Android，当前只返回 image
-  size: number; //图片大小，单位为字节 b
-  // base64: string; //图片的 base64 编码，如果 enableBase64 设置 false，则不返回该属性
+  width: number; // 图片宽度
+  height: number; // 图片高度
+  path: string; // 图片路径
+  uri: string; // 图片地址
+  original_uri: string; // 图片原始路径，仅 Android
+  type: string; // 文件类型，仅 Android，当前只返回 image
+  size: number; // 图片大小，单位为字节 b
 }
 
 /**
