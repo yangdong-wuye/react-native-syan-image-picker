@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 
+import androidx.core.content.ContextCompat;
+
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.BaseActivityEventListener;
 import com.facebook.react.bridge.Callback;
@@ -171,13 +173,6 @@ public class RNSyanImagePickerModule extends ReactContextBaseJavaModule {
         boolean showSelectedIndex = this.cameraOptions.getBoolean("showSelectedIndex");
         boolean compressFocusAlpha = this.cameraOptions.getBoolean("compressFocusAlpha");
 
-        int modeValue;
-        if (imageCount == 1) {
-            modeValue = PictureConfig.SINGLE;
-        } else {
-            modeValue = PictureConfig.MULTIPLE;
-        }
-
         boolean isAndroidQ = SdkVersionUtils.checkedAndroid_Q();
 
         Activity currentActivity = getCurrentActivity();
@@ -188,26 +183,33 @@ public class RNSyanImagePickerModule extends ReactContextBaseJavaModule {
                 .setPictureWindowAnimationStyle(mWindowAnimationStyle)
                 .imageEngine(GlideEngine.createGlideEngine())
                 .maxSelectNum(imageCount) // 最大图片选择数量 int
-                .minSelectNum(0) // 最小选择数量 int
+//                .minSelectNum(0) // 最小选择数量 int
                 .imageSpanCount(4) // 每行显示个数 int
-                .selectionMode(modeValue) // 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
+                .selectionMode(imageCount == 1 ? PictureConfig.SINGLE : PictureConfig.MULTIPLE) // 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
+                .isSingleDirectReturn(true)
                 .isPreviewImage(true) // 是否可预览图片 true or false
                 .isPreviewVideo(false) // 是否可预览视频 true or false
+                .isMaxSelectEnabledMask(true)
                 .isEnablePreviewAudio(false) // 是否可播放音频 true or false
                 .isCamera(isCamera) // 是否显示拍照按钮 true or false
                 .imageFormat(isAndroidQ ? PictureMimeType.PNG_Q : PictureMimeType.PNG) // 拍照保存图片格式后缀,默认jpeg
                 .isZoomAnim(true) // 图片列表点击 缩放效果 默认true
                 .isEnableCrop(isCrop) // 是否裁剪 true or false
                 .isCompress(compress) // 是否压缩 true or false
+                .cropImageWideHigh(CropW, CropH)
                 .withAspectRatio(CropW, CropH) // int 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
-                .hideBottomControls(isCrop) // 是否显示uCrop工具栏，默认不显示 true or false
+                .hideBottomControls(false) // 是否显示uCrop工具栏，默认不显示 true or false
                 .isGif(isGif) // 是否显示gif图片 true or false
                 .freeStyleCropEnabled(freeStyleCropEnabled) // 裁剪框是否可拖拽 true or false
                 .circleDimmedLayer(showCropCircle) // 是否圆形裁剪 true or false
                 .showCropFrame(showCropFrame) // 是否显示裁剪矩形边框 圆形裁剪时建议设为false   true or false
                 .showCropGrid(showCropGrid) // 是否显示裁剪矩形网格 圆形裁剪时建议设为false    true or false
+                .setCircleStrokeWidth(5)
+                .setCircleDimmedColor(ContextCompat.getColor(getReactApplicationContext(), R.color.ucrop_color_default_dimmed))
                 .isOpenClickSound(false) // 是否开启点击声音 true or false
+                .compressQuality(quality) // 图片压缩后输出质量
                 .cutOutQuality(quality) // 裁剪压缩质量 默认90 int
+                .isMultipleSkipCrop(true) // 多图裁剪是否支持跳过
                 .minimumCompressSize(minimumCompressSize) // 小于100kb的图片不压缩
                 .synOrAsy(true) // 同步true或异步false 压缩 默认同步
                 .rotateEnabled(rotateEnabled) // 裁剪是否可旋转图片 true or false
