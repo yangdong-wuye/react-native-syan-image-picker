@@ -255,16 +255,19 @@ public class RNSyanImagePickerModule extends ReactContextBaseJavaModule {
                 .hideBottomControls(isCrop)// 是否显示uCrop工具栏，默认不显示 true or false
                 .freeStyleCropEnabled(freeStyleCropEnabled)// 裁剪框是否可拖拽 true or false
                 .circleDimmedLayer(showCropCircle)// 是否圆形裁剪 true or false
-                .showCropFrame(showCropFrame)// 是否显示裁剪矩形边框 圆形裁剪时建议设为false   true or false
-                .showCropGrid(showCropGrid)// 是否显示裁剪矩形网格 圆形裁剪时建议设为false    true or false
-                .isOpenClickSound(false)// 是否开启点击声音 true or false
-                .cutOutQuality(quality)// 裁剪压缩质量 默认90 int
-                .minimumCompressSize(minimumCompressSize)// 小于100kb的图片不压缩
-                .synOrAsy(true)//同步true或异步false 压缩 默认同步
+                .setCircleStrokeWidth(5)
+                .setCircleDimmedColor(ContextCompat.getColor(getReactApplicationContext(), R.color.ucrop_color_default_dimmed))
+                .isOpenClickSound(false) // 是否开启点击声音 true or false
+                .compressQuality(quality) // 图片压缩后输出质量
+                .cutOutQuality(quality) // 裁剪压缩质量 默认90 int
+                .isMultipleSkipCrop(true) // 多图裁剪是否支持跳过
+                .minimumCompressSize(minimumCompressSize) // 小于100kb的图片不压缩
+                .synOrAsy(true) // 同步true或异步false 压缩 默认同步
                 .rotateEnabled(rotateEnabled) // 裁剪是否可旋转图片 true or false
-                .scaleEnabled(scaleEnabled)// 裁剪是否可放大缩小图片 true or false
+                .scaleEnabled(scaleEnabled) // 裁剪是否可放大缩小图片 true or false
+                .selectionData(selectList) // 当前已选中的图片 List
                 .isWeChatStyle(isWeChatStyle)
-                .theme(showSelectedIndex ? R.style.picture_WeChat_style : 0)
+                .theme(showSelectedIndex ? R.style.picture_WeChat_style : R.style.picture_default_style)
                 .compressFocusAlpha(compressFocusAlpha)
                 .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
     }
